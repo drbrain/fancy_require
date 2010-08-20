@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+lib/fancy_require.rb
+test/lookup/toad.rb
+test/test_fancy_require.rb
