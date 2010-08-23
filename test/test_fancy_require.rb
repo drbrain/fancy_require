@@ -4,7 +4,13 @@ require "fancy_require"
 class LookUp
 
   def path_for feature
-    Dir["#{Dir.pwd}/test/lookup/#{feature}{#{FancyRequire::SUFFIXES}}"].first
+    case feature
+    when 'true'  then true
+    when 'false' then false
+    when 'nil'   then nil
+    else
+      Dir["#{Dir.pwd}/test/lookup/#{feature}{#{FancyRequire::SUFFIXES}}"].first
+    end
   end
 
 end
@@ -29,6 +35,30 @@ class TestFancyRequire < MiniTest::Unit::TestCase
     assert require 'toad'
 
     assert_match %r%toad\.rb$%, $LOADED_FEATURES.last
+  end
+
+  def test_require_false
+    $LOAD_PATH.unshift LookUp.new
+
+    assert_equal false, require('false')
+
+    refute_match %r%false$%, $LOADED_FEATURES.last
+  end
+
+  def test_require_nil
+    $LOAD_PATH.unshift LookUp.new
+
+    assert_raises LoadError do
+      require 'nil'
+    end
+  end
+
+  def test_require_true
+    $LOAD_PATH.unshift LookUp.new
+
+    assert_equal true, require('true')
+
+    refute_match %r%true$%, $LOADED_FEATURES.last
   end
 
 end

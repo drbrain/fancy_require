@@ -5,14 +5,26 @@ require 'rubygems'
 # files to load.  You can use this to implement fancier require behavior
 # without overriding Kernel#require.
 #
-# The object you push onto $LOAD_PATH must respond to #path_for and return a
-# file name or nil.  The feature being required will be passed in by
-# FancyRequire.
+# The lookup object you push onto $LOAD_PATH must respond to #path_for.  The
+# feature being required (file name) will be passed in by FancyRequire.  
 #
-# The easiest way to use FancyRequire is to require it everywhere (include it
-# in Object):
+# The lookup object must return the path to the feature, true, false or nil.
+#
+# If nil is returned FancyRequire will continue to search down the load path.
+#
+# If true or false are returned the lookup object handled loading the file and
+# recording it in $LOADED_FEATURES.  The boolean will be returned as plain
+# require.
+#
+# == Example
+#
+# The easiest way to use FancyRequire is to require it everywhere (which
+# includes it in Object):
 #
 #   require 'fancy_require/everywhere'
+#
+# Then create a LookUp object and add it to the load path.  This LookUp object
+# looks in a 'lookup' directory under the current path.
 # 
 #   class LookUp
 #     def initialize directory
@@ -25,6 +37,8 @@ require 'rubygems'
 #   end
 # 
 #   $LOAD_PATH.unshift LookUp.new 'test'
+#
+# Then require works like normal.
 # 
 #   require 'toad' # looks for ./test/lookup/toad.rb
 
@@ -47,8 +61,15 @@ module FancyRequire
                obj.path_for feature
              end
 
-      break if path
+      case path
+      when true, false
+        return path
+      else
+        break if path
+      end
     end
+
+    raise LoadError, "no such file to load -- #{feature}" unless path
 
     return false if
       RUBY_VERSION > '1.9' and $LOADED_FEATURES.include? path
