@@ -10,21 +10,7 @@ $LOAD_PATH.
 
 == SYNOPSIS:
 
-  Object.include FancyRequire
-
-  class LookUp
-    def initialize directory
-      @directory = directory
-    end
-
-    def path_for feature
-      Dir["#{Dir.pwd}/#{directory}/lookup/#{feature}{#{FancyRequire::SUFFIXES}}"].first
-    end
-  end
-
-  $LOAD_PATH.unshift LookUp.new 'test'
-
-  require 'toad' # looks for ./test/lookup/toad.rb
+See FancyRequire
 
 == REQUIREMENTS:
 

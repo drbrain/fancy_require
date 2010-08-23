@@ -1,5 +1,33 @@
 require 'rubygems'
 
+##
+# FancyRequire allows you to push an object onto $LOAD_PATH that will find
+# files to load.  You can use this to implement fancier require behavior
+# without overriding Kernel#require.
+#
+# The object you push onto $LOAD_PATH must respond to #path_for and return a
+# file name or nil.  The feature being required will be passed in by
+# FancyRequire.
+#
+# The easiest way to use FancyRequire is to require it everywhere (include it
+# in Kernel):
+#
+#   require 'fancy_require/everywhere'
+# 
+#   class LookUp
+#     def initialize directory
+#       @directory = directory
+#     end
+# 
+#     def path_for feature
+#       Dir["#{Dir.pwd}/#{directory}/lookup/#{feature}{#{FancyRequire::SUFFIXES}}"].first
+#     end
+#   end
+# 
+#   $LOAD_PATH.unshift LookUp.new 'test'
+# 
+#   require 'toad' # looks for ./test/lookup/toad.rb
+
 module FancyRequire
   VERSION = '1.0.0'
 
