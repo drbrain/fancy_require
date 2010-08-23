@@ -10,7 +10,7 @@ require 'rubygems'
 # FancyRequire.
 #
 # The easiest way to use FancyRequire is to require it everywhere (include it
-# in Kernel):
+# in Object):
 #
 #   require 'fancy_require/everywhere'
 # 
