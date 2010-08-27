@@ -43,9 +43,21 @@ require 'rubygems'
 #   require 'toad' # looks for ./test/lookup/toad.rb
 
 module FancyRequire
-  VERSION = '1.0.0'
+
+  ##
+  # The version of FancyRequire you're using... not that I know why you're
+  # using FancyRequire
+
+  VERSION = '1.0'
+
+  ##
+  # Dir#glob list of ruby file suffixes
 
   SUFFIX_GLOB = Gem.suffixes.join ','
+
+  ##
+  # Regexp list of ruby file suffixes
+
   SUFFIX_RE = Regexp.union Gem.suffixes
 
   ##
