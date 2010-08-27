@@ -6,7 +6,7 @@ require 'rubygems'
 # without overriding Kernel#require.
 #
 # The lookup object you push onto $LOAD_PATH must respond to #path_for.  The
-# feature being required (file name) will be passed in by FancyRequire.  
+# feature being required (file name) will be passed in by FancyRequire.
 #
 # The lookup object must return the path to the feature, true, false or nil.
 #
@@ -25,21 +25,21 @@ require 'rubygems'
 #
 # Then create a LookUp object and add it to the load path.  This LookUp object
 # looks in a 'lookup' directory under the current path.
-# 
+#
 #   class LookUp
 #     def initialize directory
 #       @directory = directory
 #     end
-# 
+#
 #     def path_for feature
 #       Dir["#{Dir.pwd}/#{directory}/lookup/#{feature}{#{FancyRequire::SUFFIXES}}"].first
 #     end
 #   end
-# 
+#
 #   $LOAD_PATH.unshift LookUp.new 'test'
 #
 # Then require works like normal.
-# 
+#
 #   require 'toad' # looks for ./test/lookup/toad.rb
 
 module FancyRequire
