@@ -9,7 +9,7 @@ class LookUp
     when 'false' then false
     when 'nil'   then nil
     else
-      Dir["#{Dir.pwd}/test/lookup/#{feature}{#{FancyRequire::SUFFIXES}}"].first
+      Dir["#{Dir.pwd}/test/lookup/#{feature}{#{FancyRequire::SUFFIX_GLOB}}"].first
     end
   end
 
