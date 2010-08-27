@@ -15,17 +15,32 @@ module Kernel
 
 end
 
+##
+# A RubyGems LookUp object that does not pollute $LOAD_PATH.  Instead,
+# Gem::LookUp keeps an internal load path of activated gems.
+#
+# Requiring fancy_require/rubygems replaces rubygems/custom_require.
+
 class Gem::LookUp
 
+  ##
+  # Hash mapping activated gem names to their Gem::Specifications
+
   attr_accessor :activated
+
+  ##
+  # Load path for activated gems
+
   attr_accessor :load_path
-  attr_accessor :stack
 
   def initialize
     @activated = {}
     @load_path = []
     @stack = {}
   end
+
+  ##
+  # Activates +dep+ and adds it to the load path.
 
   def activate dep, sources = []
     matches = Gem.source_index.search dep
@@ -56,6 +71,9 @@ class Gem::LookUp
     return true
   end
 
+  ##
+  # Was +dep+ activated?
+
   def activated? dep, matches
     return unless @activated[dep.name]
 
@@ -80,6 +98,9 @@ class Gem::LookUp
 
     return true
   end
+
+  ##
+  # FancyRequire hook that will load +feature+
 
   def path_for feature
     orig_load_path = $LOAD_PATH.dup

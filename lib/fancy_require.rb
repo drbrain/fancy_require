@@ -48,6 +48,11 @@ module FancyRequire
   SUFFIX_GLOB = Gem.suffixes.join ','
   SUFFIX_RE = Regexp.union Gem.suffixes
 
+  ##
+  # Replacement for Kernel#require
+  #
+  # NOTE: this method is not 100% compatible with ruby
+
   def require feature
     return false if loaded? feature # 1.8
 
@@ -86,6 +91,11 @@ module FancyRequire
     true
   end
 
+  ##
+  # Is +feature+ already in $LOADED_FEATURES?
+  #
+  # NOTE: this method is not 100% compatible with ruby
+
   def loaded? feature
     $LOADED_FEATURES.any? do |path|
       path =~ /^#{feature}#{SUFFIX_RE}$/
@@ -93,3 +103,4 @@ module FancyRequire
   end
 
 end
+
